@@ -2,6 +2,15 @@
 
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var uploaded_file;
+  var files;
+  if (window.File && window.FileReader && window.FileList) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert('The File APIs are not fully supported in this browser.');
+}
+</script>
 </head>
 <h1>Object Upload</h1>
 <div style="overflow:hidden;height:400px;width:500px;">
@@ -12,6 +21,18 @@
     }
   </style>
 </div>
+<style>
+#drop_zone {
+  border: 2px dashed #bbb;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 25px;
+  text-align: center;
+  font: 20pt bold 'Vollkorn';
+  color: #bbb;
+}
+</style>
 <form> <!-- action="accept_file_upload.py"> -->
   <table>
     <tr>
@@ -23,14 +44,58 @@
     <td><input type="text" name="longitude" id="long"></td>
   </tr>
   <tr>
-    <td>
-      <input type="file" required="true">
+    <td colspan="2">
+      <!-- <input type="file" required="true"> -->
+      <div id="drop_zone">Drop COLLADA file here</div>
+      <output id="list"></output>
     </td>
   </tr>
   </table>
   <br>
   <input type="submit" value="Submit">
 </form>
+<script type="text/javascript">
+  function testValidDAE() {
+    uploaded_file = $('#collada').get(0).files[0];
+    console.log(uploaded_file);
+    //alert("changed File");
+    //var parser = new DOMParser();
+    //var doc = parser.parseFromString( fileAsString, "application/xml");
+  }
+</script>
+<script>
+  function handleFileSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    files = evt.dataTransfer.files; // FileList object.
+    file = files[0];
+
+    var reader = new FileReader();
+    reader.readAsText(file);
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+                  '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+  }
+
+  function handleDragOver(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  }
+
+  // Setup the dnd listeners.
+  var dropZone = document.getElementById('drop_zone');
+  dropZone.addEventListener('dragover', handleDragOver, false);
+  dropZone.addEventListener('drop', handleFileSelect, false);
+</script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
   function init_map() {
