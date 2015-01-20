@@ -1,0 +1,44 @@
+<!doctype html>
+
+<!-- File Upload Page by Michael Wheatman -->
+
+<head>
+<meta charset="utf-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='ColladaLoader.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='three.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='uploadscripts.js') }}"></script>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='uploadstyles.css') }}">
+</head>
+
+<h1>Augmented Reality - Object Creator</h1>
+<div style="overflow:hidden;height:400px;width:500px;">
+  <div id="gmap_canvas" style="height:400px;width:500px;"></div>
+  <style>#gmap_canvas img {
+      max-width:none!important;
+      background:none!important
+    }
+  </style>
+</div>
+<form action="" method="POST" enctype=multipart/form-data> <!-- action="accept_file_upload.py"> -->
+  <table>
+    <tr>
+      <td>Latitude:</td>
+      <td><input type="text" name="latitude" id="lat"></td>
+      <td>Longitude:</td>
+      <td><input type="text" name="longitude" id="long"></td>
+    </tr>
+  <tr>
+    <td colspan="4">
+      <input type="file" required="true" name="collada">
+      <!-- <div id="drop_zone">Drop COLLADA file here</div> -->
+      <!-- <output id="list"></output> -->
+    </td>
+  </tr>
+  </table>
+  <br>
+  <input type="submit" value="Submit">
+</form>
