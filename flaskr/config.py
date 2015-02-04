@@ -2,7 +2,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    UPLOAD_FOLDER = 'uploads'
+    UPLOAD_FOLDER = '/Users/comps/Sites/backend/walkAround/uploads'
     ALLOWED_EXTENSIONS = set(['txt', 'dae', 'xml'])
     SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/'
 

@@ -24,10 +24,12 @@ class DataSource:
     try:
       cursor = connection.cursor()
       cursor.execute(query)
+      print query
       #cursor.execute('Select * from test')
       if not set:
           return cursor.fetchall()
       else:
+          connection.commit()
           return
 
 
