@@ -3,8 +3,8 @@ var files;
 var file_contents;
 
 if (window.File && window.FileReader && window.FileList) {
-  // Great success! All the File APIs are supported.
-} else {
+}
+else {
   alert('The File APIs are not fully supported in this browser.');
 }
 
@@ -33,9 +33,6 @@ function init_map(position) {
 function testValidDAE() {
   uploaded_file = $('#collada').get(0).files[0];
   console.log(uploaded_file);
-  //alert("changed File");
-  //var parser = new DOMParser();
-  //var doc = parser.parseFromString( fileAsString, "application/xml");
 }
 
 function handleFileSelect(evt) {
@@ -47,21 +44,11 @@ function handleFileSelect(evt) {
   var reader = new FileReader();
   reader.onload = function(e) {
     file_contents = e.target.result;
-    //console.log(file_contents);
     xml_version = $(file_contents)[0];
     xml_contents = $(file_contents)[2];
-    // if (xml_file.firstChild == '<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">') {console.log("True");}
-    // else {console.log("False");}
-    // var header_contents = file_contents.substr(0,120);
-    // if (!checkValidDAE(header_contents)) {
-    //   console.log("|"+contents.substr(0,120)+"|");
-    //   alert("Uploaded File is not a valid DAE.");
-    //   return false;
-    // }
   }
 
   reader.readAsText(uploaded_file);
-  // console.log(reader.result);
 
   // files is a FileList of File objects. List some properties.
   var output = [];
