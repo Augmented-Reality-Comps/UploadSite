@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='uploadstyles.css') }}">
 </head>
 
-<h1>Augmented Reality - Object Creator</h1>
+<h1>Augmented Reality - Label Creator</h1>
 <div style="overflow:hidden;height:400px;width:500px;">
   <div id="gmap_canvas" style="height:400px;width:500px;"></div>
   <style>#gmap_canvas img {
@@ -30,11 +30,8 @@
       <td><input type="text" name="latitude" id="lat"></td>
       <td>Longitude:</td>
       <td><input type="text" name="longitude" id="long"></td>
-    </tr>
-    <tr>
-      <td colspan="4">
-        <input type="file" required="true" name="collada">
-      </td>
+      <td>Label:</td>
+      <td><input type="text" name="label" id="label"></td>
     </tr>
   </table>
   <br>

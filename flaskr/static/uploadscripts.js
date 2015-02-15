@@ -30,11 +30,6 @@ function init_map(position) {
   );
 }
 
-function testValidDAE() {
-  uploaded_file = $('#collada').get(0).files[0];
-  console.log(uploaded_file);
-}
-
 function handleFileSelect(evt) {
   evt.stopPropagation();
   evt.preventDefault();
@@ -66,27 +61,3 @@ function handleDragOver(evt) {
   evt.preventDefault();
   evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
-
-//Checks that file is valid COLLADA file before syncing with database
-function checkValidDAE(header) {
-  if (header == '<?xml version="1.0" encoding="utf-8"?><COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">') {
-      return true;
-    }
-    else {
-      return false;
-    }
-}
-
-//Stores coordinates + object into database
-function syncObjectDatabase() {
-  //
-}
-
-function setDropListeners() {
-  // Setup the dnd listeners.
-  var dropZone = document.getElementById('drop_zone');
-  dropZone.addEventListener('dragover', handleDragOver, false);
-  dropZone.addEventListener('drop', handleFileSelect, false);
-}
-
-window.onload = setDropListeners;

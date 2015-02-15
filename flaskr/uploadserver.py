@@ -9,7 +9,7 @@ from datasource import DataSource
 import config
 
 app = Flask(__name__)
-app.config.from_object(config.DevelopmentConfig)
+app.config.from_object(config.ProductionConfig)
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -17,7 +17,7 @@ def page_not_found(error):
 
 @app.route('/')
 def index():
-    return '<h1>Index</h1><h2>By Michael and Richard</h2><a href="/upload">Uploads</a>'
+    return '<h1>Index</h1><h2>By Michael and Richard</h2><a href="/upload">Uploads</a><br/><a href="/uploadLabel">Upload Labels</a>'
 
 @app.route('/uploadsuccess')
 def uploadsuccess():
@@ -48,6 +48,24 @@ def upload_site():
         return '<h1>Failure</h1>'
     else:
         return render_template('upload.html')
+
+@app.route('/uploadLabel', methods=['GET', 'POST'])
+def upload_label():
+    if request.method == 'POST':
+        
+        latitude = float(request.form['latitude'])
+        longitude = float(request.form['longitude'])
+        label = str(request.form['label'])
+
+        #inserting into the database
+        db = DataSource()
+        database = 'labels'
+        query = 'insert into '+database+'(lat, long, label) values ('+str(latitude)+', '+str(longitude)+', \''+str(label)+'\');';
+        db.doData(query, True)
+
+        return redirect(url_for('uploadsuccess'))
+    else:
+        return render_template('uploadLabel.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
