@@ -7,6 +7,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 from werkzeug import secure_filename
 from datasource import DataSource
 import config
+import cgi
 
 app = Flask(__name__)
 app.config.from_object(config.ProductionConfig)
@@ -31,8 +32,17 @@ def allowed_file(filename):
 def upload_site():
     if request.method == 'POST':
         file = request.files['collada']
-        latitude = float(request.form['latitude']) * 111000
-        longitude = float(request.form['longitude']) * 79000
+
+        #geolocation
+        latitude = float(request.form['latitude']) * 100000
+        longitude = float(request.form['longitude']) * 100000
+        altitude = float(request.form['altitude'])
+        
+        #angles
+        x_rot = float(request.form['x_rot'])
+        y_rot = float(request.form['y_rot'])
+        z_rot = float(request.form['z_rot'])
+
         if file and allowed_file(file.filename):
             #uploading the file
             filename = secure_filename(file.filename)
@@ -40,8 +50,8 @@ def upload_site():
 
             #inserting into the database
             db = DataSource()
-            database = 'demo'
-            query = 'insert into '+database+'(lat, long, alt, file) values ('+str(latitude)+', '+str(longitude)+', 20, \''+filename+'\');'
+            database = 'object_Table'
+            query = 'insert into '+database+'(lat, long, alt, x_rot, y_rot, z_rot, file) values ('+str(latitude)+', '+str(longitude)+', '+str(altitude)+', '+str(x_rot)+', '+str(y_rot)+', '+str(z_rot)+',\''+filename+'\');'
             db.doData(query, True)
 
             return redirect(url_for('uploadsuccess'))
@@ -60,7 +70,7 @@ def upload_label():
         #inserting into the database
         db = DataSource()
         database = 'labels'
-        query = 'insert into '+database+'(lat, long, label) values ('+str(latitude)+', '+str(longitude)+', \''+str(label)+'\');';
+        query = 'insert into '+database+'(lat, long, label, radius) values ('+str(latitude)+', '+str(longitude)+', \''+str(label)+'\', .0002);';
         db.doData(query, True)
 
         return redirect(url_for('uploadsuccess'))
